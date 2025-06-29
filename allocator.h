@@ -15,6 +15,7 @@ namespace ds {
     };
 
     public:
+        ~allocator();
         void* allocate (size_t size);
         void dealloc(void* ptr);
     private:

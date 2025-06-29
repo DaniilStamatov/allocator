@@ -1,6 +1,7 @@
 #include "allocator.h"
 #include <cassert>
 #include <cstring>
+#include <iostream>
 int main () {
     ds::allocator a;
 
@@ -19,19 +20,24 @@ int main () {
     assert(p3 != nullptr);
     std::memset(p3, 0xBB, 64);
     a.dealloc(p3);
+    ds::allocator alloc;
 
-    // ds::allocator alloc;
-    // void* ptr = alloc.allocate(200);  
-    // assert(ptr != nullptr);
+    void* ptr1 = alloc.allocate(100); 
+    void* ptr2 = alloc.allocate(200); 
+    alloc.dealloc(ptr1);
+    alloc.dealloc(ptr2);
 
-    // void* ptr2 = alloc.allocate(20);
-    // assert(ptr2 != nullptr);
+    void* ptr3 = alloc.allocate(100); 
+    void* ptr4 = alloc.allocate(200); 
 
-    // assert(ptr != ptr2);
-    // assert(reinterpret_cast<char*>(ptr) + 200 == reinterpret_cast<char*>(ptr2));
+    assert(ptr3 != nullptr);
+    assert(ptr4 != nullptr);
+    std::cout << ptr3  << ": "<< ptr1 << std::endl;
+    assert(ptr3 == ptr1);  
+    assert(ptr4 == ptr2);  
+    std::cout << ptr4  << ": "<< ptr2 << std::endl;
 
-    // alloc.dealloc(ptr);
-    // alloc.dealloc(ptr2);
+    std::cout << "Allocation and reuse test passed!" << std::endl;
 
     return 0;
 }
